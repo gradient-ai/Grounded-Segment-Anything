@@ -1,0 +1,1 @@
+('horses running field mountains(0.35)', tensor([  2.6910, 187.4432, 601.8879, 410.7186]))
