@@ -472,9 +472,19 @@ if __name__ == "__main__":
     parser.add_argument("--debug", action="store_true", help="using debug mode")
     parser.add_argument("--share", action="store_true", help="share the app")
     args = parser.parse_args()
-
-    block = gr.Blocks().queue()
+    description = """
+    <p style="text-align: center;">
+        <span style="font-size: 28px; font-weight: bold;">Grounded Segment Anything + Dolly v2</span>
+        <br>
+        This tab can be used to automatically generate labels and corresponding bounding boxes for images in the YOLOv8 format.
+        \n
+        \n
+        Fill the field "Semi-colon separated list of target labels" with the desired labels seperated by semi-colons
+    </p>
+    """
+    block = gr.Blocks()
     with block:
+        gr.HTML(description)
         with gr.Row():
             with gr.Column():
                 # input_image = gr.Image(source='upload', type="pil")
@@ -504,6 +514,8 @@ if __name__ == "__main__":
                 mask_gallery = gr.Image(label = 'Mask image',
                     visible = False, 
                 ).style(full_width=True, full_height=True)
+        with gr.Row():
+            gr.Image('assets/logo.png').style(height = 53, width = 125, interactive = False)
 
 
         run_button.click(fn=run_grounded_sam, inputs=[
