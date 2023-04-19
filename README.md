@@ -1,5 +1,7 @@
 # Segment Anything
 
+[![Gradient](https://assets.paperspace.io/img/gradient-badge.svg)](https://console.paperspace.com/github/gradient-ai/Grounded-Segment-Anything/?machine=Free-GPU)
+
 **[Meta AI Research, FAIR](https://ai.facebook.com/research/)**
 
 [Alexander Kirillov](https://alexander-kirillov.github.io/), [Eric Mintun](https://ericmintun.github.io/), [Nikhila Ravi](https://nikhilaravi.com/), [Hanzi Mao](https://hanzimao.me/), Chloe Rolland, Laura Gustafson, [Tete Xiao](https://tetexiao.com), [Spencer Whitehead](https://www.spencerwhitehead.com/), Alex Berg, Wan-Yen Lo, [Piotr Dollar](https://pdollar.github.io/), [Ross Girshick](https://www.rossgirshick.info/)
@@ -33,17 +35,17 @@ cd segment-anything; pip install -e .
 ```
 
 The following optional dependencies are necessary for mask post-processing, saving masks in COCO format, the example notebooks, and exporting the model in ONNX format. `jupyter` is also required to run the example notebooks.
+
 ```
 pip install opencv-python pycocotools matplotlib onnxruntime onnx
 ```
-
 
 ## <a name="GettingStarted"></a>Getting Started
 
 First download a [model checkpoint](#model-checkpoints). Then the model can be used in just a few lines to get masks from a given prompt:
 
 ```
-from segment_anything import build_sam, SamPredictor 
+from segment_anything import build_sam, SamPredictor
 predictor = SamPredictor(build_sam(checkpoint="</path/to/model.pth>"))
 predictor.set_image(<your_image>)
 masks, _, _ = predictor.predict(<input_prompts>)
@@ -82,18 +84,21 @@ See the [example notebook](https://github.com/facebookresearch/segment-anything/
 
 ## <a name="Models"></a>Model Checkpoints
 
-Three model versions of the model are available with different backbone sizes. These models can be instantiated by running 
+Three model versions of the model are available with different backbone sizes. These models can be instantiated by running
+
 ```
 from segment_anything import sam_model_registry
 sam = sam_model_registry["<name>"](checkpoint="<path/to/checkpoint>")
 ```
+
 Click the links below to download the checkpoint for the corresponding model name. The default model in bold can also be instantiated with `build_sam`, as in the examples in [Getting Started](#getting-started).
 
-* **`default` or `vit_h`: [ViT-H SAM model.](https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth)**
-* `vit_l`: [ViT-L SAM model.](https://dl.fbaipublicfiles.com/segment_anything/sam_vit_l_0b3195.pth)
-* `vit_b`: [ViT-B SAM model.](https://dl.fbaipublicfiles.com/segment_anything/sam_vit_b_01ec64.pth)
+- **`default` or `vit_h`: [ViT-H SAM model.](https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth)**
+- `vit_l`: [ViT-L SAM model.](https://dl.fbaipublicfiles.com/segment_anything/sam_vit_l_0b3195.pth)
+- `vit_b`: [ViT-B SAM model.](https://dl.fbaipublicfiles.com/segment_anything/sam_vit_b_01ec64.pth)
 
 ## License
+
 The model is licensed under the [Apache 2.0 license](LICENSE).
 
 ## Contributing
