@@ -12,11 +12,11 @@ from PIL import Image, ImageDraw, ImageFont
 import yaml
 import subprocess
 # Grounding DINO
-import GroundingDINO.groundingdino.datasets.transforms as T
-from GroundingDINO.groundingdino.models import build_model
-from GroundingDINO.groundingdino.util import box_ops
-from GroundingDINO.groundingdino.util.slconfig import SLConfig
-from GroundingDINO.groundingdino.util.utils import clean_state_dict, get_phrases_from_posmap
+import groundingdino.datasets.transforms as T
+from groundingdino.models import build_model
+from groundingdino.util import box_ops
+from groundingdino.util.slconfig import SLConfig
+from groundingdino.util.utils import clean_state_dict, get_phrases_from_posmap
 from transformers import BlipProcessor, BlipForConditionalGeneration
 # segment anything
 from segment_anything import build_sam, SamPredictor 
@@ -56,8 +56,8 @@ sam = build_sam(checkpoint=sam_checkpoint)
 sam.to(device=device)
 
 def make_yaml(name, lst):
-    subprocess.run(['mkdir', f'../{name}'])
-    subprocess.run(['touch', f'../{name}/data.yaml'])
+    subprocess.run(['mkdir', f'{name}'])
+    subprocess.run(['touch', f'{name}/data.yaml'])
 
     for i in lst:
         if i == '':
@@ -68,7 +68,7 @@ def make_yaml(name, lst):
              'test': f'test/images',
              'train': f'train/images',
              'val': f'valid/images'}
-    with open(f'../{name}/data.yaml', 'w') as file:
+    with open(f'{name}/data.yaml', 'w') as file:
         documents = yaml.dump(dict1, file)
     return dict1
 
@@ -245,7 +245,7 @@ def generate_caption(raw_image):
     return caption
 
 
-def generate_tags(caption, targets, split=',', max_tokens=100, model="../../datasets/dolly-v2-12b/dolly-v2-12b"):
+def generate_tags(caption, targets, split=',', max_tokens=100, model="../datasets/dolly-v2-12b/dolly-v2-12b"):
     targets = " ".join(targets.split(';'))
 
     # print(caption)
@@ -268,7 +268,7 @@ def generate_tags(caption, targets, split=',', max_tokens=100, model="../../data
     tags_d = tags.replace('\n', ' ')
     return tags_d.strip("']['")
 
-def check_caption(caption, pred_phrases, max_tokens=100, model="../../datasets/dolly-v2-12b/dolly-v2-12b/"):
+def check_caption(caption, pred_phrases, max_tokens=100, model="../datasets/dolly-v2-12b/dolly-v2-12b/"):
     object_list = [obj.split('(')[0] for obj in pred_phrases]
     object_num = []
     for obj in set(object_list):
@@ -304,9 +304,9 @@ def run_grounded_sam(image_path_, targets, name, split, box_threshold, text_thre
     save_targs = targets
     save_name = name
     save_split = split
-    if not os.path.isfile(f'../{name}/data.yaml'):    
+    if not os.path.isfile(f'{name}/data.yaml'):    
             make_yaml(name, targets)
-    count = len(os.listdir(f"../datasets/{name}/{split}/images/"))
+    count = len(os.listdir(f"datasets/{name}/{split}/images/"))
     # load image
     
     for impath in image_path_:
@@ -455,7 +455,7 @@ def gal_select(evt: gr.SelectData, gallery, name, split):
     print(gallery)
     # print(dict(gallery))
     # print( f"You selected {evt.value} at {evt.index} from {evt.target}")# SelectData is a subclass of EventData
-    path = f'../datasets/{name}/{split}/labeled_imgs/'
+    path = f'datasets/{name}/{split}/labeled_imgs/'
     im_name = gallery[evt.index]['name'].split('/')[-1]
     im_name = im_name.split('.')[0]+'.txt'
     # im = Image.open(path+im_name)
@@ -512,4 +512,4 @@ if __name__ == "__main__":
         gallery.select(fn = show, inputs = None, outputs = [image_caption, identified_labels, mask_gallery])
         gallery.select(fn = gal_select, inputs = [gallery, name, split], outputs = [image_caption, identified_labels, mask_gallery])
 
-    block.launch(server_name='0.0.0.0', server_port=7561, debug=args.debug, share=args.share)
+    block.launch(server_name='0.0.0.0', server_port=7560, debug=args.debug, share=args.share)
