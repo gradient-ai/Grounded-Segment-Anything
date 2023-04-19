@@ -43,7 +43,7 @@ import torch
 from transformers import pipeline
 model="../datasets/dolly-v2-12b/dolly-v2-12b/"
 generate_text = pipeline(model=model, torch_dtype=torch.bfloat16, trust_remote_code=True, device_map="auto")
-config_file = 'GroundingDINO/groundingdino/config/GroundingDINO_SwinT_OGC.py'
+config_file = 'groundingdino/config/GroundingDINO_SwinT_OGC.py'
 ckpt_repo_id = "ShilongLiu/GroundingDINO"
 ckpt_filenmae = "groundingdino_swint_ogc.pth"
 sam_checkpoint='sam_vit_h_4b8939.pth'
@@ -292,10 +292,10 @@ def check_caption(caption, pred_phrases, max_tokens=100, model="../datasets/doll
     return caption
 
 def run_grounded_sam(image_path_, targets, name, split, box_threshold, text_threshold, iou_threshold, area_threshold):
-    output_dir=f"../datasets/{name}/{split}/"
+    output_dir=f"datasets/{name}/{split}/"
     # output_dir=f"../datasets/"
     # make dir
-    if output_dir not in os.listdir('../datasets'):
+    if output_dir not in os.listdir('datasets'):
         os.makedirs(output_dir, exist_ok=True)
         os.makedirs(output_dir+'/labels/', exist_ok=True)
         os.makedirs(output_dir+'/images/', exist_ok=True)
@@ -512,4 +512,4 @@ if __name__ == "__main__":
         gallery.select(fn = show, inputs = None, outputs = [image_caption, identified_labels, mask_gallery])
         gallery.select(fn = gal_select, inputs = [gallery, name, split], outputs = [image_caption, identified_labels, mask_gallery])
 
-    block.launch(server_name='0.0.0.0', server_port=7560, debug=args.debug, share=args.share)
+    block.launch(server_name='0.0.0.0', server_port=7561, debug=args.debug, share=args.share)
