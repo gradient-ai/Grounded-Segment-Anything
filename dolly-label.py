@@ -41,7 +41,7 @@ if platform == 'darwin':
     
 import torch
 from transformers import pipeline
-model="../../datasets/dolly-v2-12b/dolly-v2-12b/"
+model="../datasets/dolly-v2-12b/dolly-v2-12b/"
 generate_text = pipeline(model=model, torch_dtype=torch.bfloat16, trust_remote_code=True, device_map="auto")
 config_file = 'GroundingDINO/groundingdino/config/GroundingDINO_SwinT_OGC.py'
 ckpt_repo_id = "ShilongLiu/GroundingDINO"
