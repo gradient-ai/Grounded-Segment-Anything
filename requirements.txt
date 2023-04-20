@@ -20,3 +20,4 @@ transformers==4.28.1
 yapf
 accelerate
 exif
+textblob
